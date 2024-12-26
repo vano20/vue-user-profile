@@ -2,20 +2,14 @@
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
-
-const user = {
-  id: 2,
-  email: 'janet.weaver@reqres.in',
-  first_name: 'Janet',
-  last_name: 'Weaver',
-  avatar: 'https://reqres.in/img/faces/2-image.jpg'
-}
+const { user } = storeToRefs(useAuthStore())
 
 const authStore = useAuthStore()
 const router = useRouter()
 
-const fullName = computed(() => `${user.first_name} ${user.last_name}`)
+const fullName = computed(() => `${user.value.first_name} ${user.value.last_name}`)
 
 function logout() {
   authStore.logout()

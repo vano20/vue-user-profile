@@ -1,11 +1,16 @@
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
-const user = ref('UserName')
+const authStore = useAuthStore()
+const { user } = storeToRefs(authStore)
+
+const fullName = computed(() => `${user.value.first_name} ${user.value.last_name}`)
 </script>
 
 <template>
   <main class="p-4">
-    <p class="mb-0">Welcome, {{ user }} !</p>
+    <p class="mb-0">Welcome, {{ fullName }} !</p>
   </main>
 </template>

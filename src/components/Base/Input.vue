@@ -15,7 +15,7 @@ const props = defineProps({
     type: String,
     default: 'Input field'
   },
-  value: {
+  modelValue: {
     type: [String, Number],
     default: ''
   },
@@ -49,7 +49,7 @@ function handleInput(event) {
 }
 </script>
 <template>
-  <input :value="value" :class="inputClass" :type="type" :id="id" :placeholder="placeholder" :disabled="isDisabled"
+  <input :value="modelValue" :class="inputClass" :type="type" :id="id" :placeholder="placeholder" :disabled="isDisabled"
     @input="handleInput" />
 
   <slot v-if="isInvalid" name="error">

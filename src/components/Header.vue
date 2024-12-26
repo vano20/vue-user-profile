@@ -1,4 +1,6 @@
 <script setup>
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
@@ -9,16 +11,11 @@ const userMenus = [
     to: '/profile'
   }
 ]
-const user = {
-  id: 2,
-  email: 'janet.weaver@reqres.in',
-  first_name: 'Janet',
-  last_name: 'Weaver',
-  avatar: 'https://reqres.in/img/faces/2-image.jpg'
-}
 
-const fullName = computed(() => `${user.first_name} ${user.last_name}`)
-const isLoggedIn = computed(() => !!user.id)
+const { user } = storeToRefs(useAuthStore())
+
+const fullName = computed(() => `${user.value.first_name} ${user.value.last_name}`)
+const isLoggedIn = computed(() => !!user.value.id)
 </script>
 
 <template>

@@ -10,7 +10,6 @@ export function useLoadingText(text = 'Loading') {
       const setDots = countDots === 3 ? 0 : countDots + 1
 
       loadingText.value = countDots === 0 ? 'Loading.' : `Loading${'.'.repeat(setDots)}`
-      console.log('running intervals', new Date())
 
       if (!isLoading.value) {
         stopLoadingText()
