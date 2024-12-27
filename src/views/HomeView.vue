@@ -4,7 +4,7 @@ import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore()
-const { user, userFullName: fullName‘ } = storeToRefs(authStore)
+const { user, userFullName: fullName } = storeToRefs(authStore)
 
 </script>
 
