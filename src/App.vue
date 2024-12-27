@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref, nextTick } from 'vue'
 import { RouterView } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
@@ -12,11 +12,16 @@ const menus = [
     path: '/',
     label: 'Home',
   },
-];
+]
 
 const authStore = useAuthStore()
 const { isLoggedIn, isLoading } = storeToRefs(authStore)
 const { loadingText, startLoadingText } = useLoadingText()
+const sidebar = ref(null)
+
+async function toggleSidebar() {
+  sidebar?.value?.toggle?.()
+}
 
 onMounted(() => {
   startLoadingText(isLoading)
@@ -28,10 +33,10 @@ onMounted(() => {
     <p>{{ loadingText }}</p>
   </main>
 
-  <Header v-if="isLoggedIn && !isLoading" />
+  <Header v-if="isLoggedIn && !isLoading" @toggle-sidebar="toggleSidebar" />
 
   <div class="flex w-full overflow-hidden">
-    <Sidebar v-if="isLoggedIn && !isLoading" :menus="menus" />
+    <Sidebar ref="sidebar" v-if="isLoggedIn && !isLoading" :menus="menus" />
 
     <RouterView class="flex-grow" />
   </div>

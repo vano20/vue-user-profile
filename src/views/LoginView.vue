@@ -57,7 +57,7 @@ async function login() {
         </div>
 
         <div class="block w-full mt-12">
-          <Button full-width :is-loading="isLoggingIn" @click="login">Login</button>
+          <Button full-width :is-disabled="isLoggingIn" @click="login">Login</button>
         </div>
       </form>
 

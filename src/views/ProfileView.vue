@@ -19,18 +19,18 @@ function logout() {
 </script>
 <template>
   <main class="p-4 md:w-full">
-    <div class="flex w-full items-center md:justify-between mb-4 gap-4">
+    <div class="flex w-full items-center justify-between mb-4 gap-4">
       <h2 class="text-2xl font-semibold">My Profile</h2>
 
       <a class="text-sky-500 mr-4 cursor-pointer" @click="logout">Logout</a>
     </div>
 
-    <div class="flex flex-col md:flex-row md:items-center w-full mb-4 p-4 border-2 rounded-2xl">
+    <div class="flex flex-col md:flex-row items-center w-full mb-4 p-4 border-2 rounded-2xl">
       <img class="w-24 h-24 rounded-full mr-4 object-cover shadow-lg opacity-0 transition-opacity duration-300"
         onload="this.classList.remove('opacity-0'); this.classList.add('opacity-100')" loading="lazy" :src="user.avatar"
         :data-src="user.avatar" :alt="fullName">
 
-      <div>
+      <div class="text-center md:text-start">
         <p class="text-lg font-semibold">{{ fullName }}</p>
         <p class="text-gray-600">{{ user.email }}</p>
       </div>

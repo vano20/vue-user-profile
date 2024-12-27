@@ -1,9 +1,14 @@
-import axios from '@/plugins/axios';
+import axios from '@/plugins/axios'
 
-const resource = '/users';
+const resource = '/users'
 
 export default {
-  getUser(id) {
-      return axios.get(`${resource}/${id}`);
+  getListUsers() {
+    const params = { per_page: 100 } 
+    console.log(params)
+    return axios.get(`${resource}`, { params })
   },
-};
+  getUser(id) {
+    return axios.get(`${resource}/${id}`)
+  },
+}

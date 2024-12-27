@@ -29,10 +29,10 @@ const isLoggedIn = computed(() => !!user.value.id)
         </li>
       </ul>
 
-      <RouterLink v-if="isLoggedIn" to="/profile" class="h-full border-l px-4 hidden md:block">
+      <RouterLink v-if="isLoggedIn" to="/profile" class="h-full md:border-l px-4">
         <div class="flex items-center gap-2 cursor-pointer h-full">
           <img class="rounded-full " width="30" :src="user.avatar" :alt="fullName" />
-          {{ fullName }}
+          <p class="hidden md:block">{{ fullName }}</p>
         </div>
       </RouterLink>
     </nav>

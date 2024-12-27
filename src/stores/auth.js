@@ -1,6 +1,6 @@
 import Cookie from 'js-cookie'
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import RepositoryFactory from '@/repository/RepositoryFactory'
 
@@ -8,13 +8,19 @@ const AuthRepository = RepositoryFactory.get('auth')
 const UserRepository = RepositoryFactory.get('user')
 
 export const useAuthStore = defineStore('auth', () => {
-  const userIdMap = {
-    ['george.bluth@reqres.in']: 1,
-  }
+  const users = ref([])
   const user = ref({})
   const isLoggedIn = ref(false)
   const isLoading = ref(false)
   const router = useRouter()
+
+  const usersIdMap = computed(() => {
+    return users.value.reduce((acc, user) => {
+      acc[user.email] = user.id
+
+      return acc
+    }, {})
+  })
 
   function setUser(userData, token) {
     user.value = userData
@@ -23,6 +29,14 @@ export const useAuthStore = defineStore('auth', () => {
     if (token) Cookie.set('authToken', `${token}-${user.value.id}`, { expires: 7, sameSite: 'strict' })
   }
 
+  async function getUsers() {
+    try {
+      const res = await UserRepository.getListUsers()
+      users.value = res?.data?.data ?? []
+    } catch (error) {
+      console.log('err', error)
+    }
+  }
   async function getUserData(id) {
     try {
       const user = await UserRepository.getUser(id)
@@ -42,7 +56,8 @@ export const useAuthStore = defineStore('auth', () => {
         email,
         password
       })
-      const user = await UserRepository.getUser(userIdMap[email] ?? '')
+      await getUsers()
+      const user = await UserRepository.getUser(usersIdMap.value[email] ?? '')
 
       setUser(user?.data?.data ?? {}, response?.data?.token ?? '')
     } catch (error) {
@@ -62,6 +77,7 @@ export const useAuthStore = defineStore('auth', () => {
     const [token, id] = Cookie.get('authToken')?.split?.('-') ?? []
 
     if (token) {
+      await getUsers()
       getUserData(id)
     } else {
       isLoading.value = false
@@ -69,10 +85,12 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   return { 
-    user, 
-    isLoggedIn, 
+    user,
+    users,
+    usersIdMap,
+    isLoggedIn,
     isLoading,
-    login, 
+    login,
     logout,
     checkAuthStatus,
   }

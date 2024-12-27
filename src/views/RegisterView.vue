@@ -24,7 +24,7 @@ const required = ref({
   email: true,
   password: true
 })
-const isRegistering = ref(false);
+const isRegistering = ref(false)
 
 async function registerUser() {
   try {

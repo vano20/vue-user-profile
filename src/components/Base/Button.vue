@@ -10,7 +10,7 @@ const props = defineProps({
     type: String,
     default: 'primary',
   },
-  disabled: {
+  isDisabled: {
     type: Boolean,
     default: false,
   },
@@ -18,6 +18,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  pill: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 const variantClass = {
@@ -29,15 +33,19 @@ const fullWidthClass = computed(() => {
   return props.fullWidth ? 'w-full' : ''
 })
 
+const pillClass = computed(() => {
+  return props.pill ? 'rounded-full shadow-xl p-2' : 'rounded-xl shadow-lg px-4 py-2'
+})
+
 const buttonClass = computed(() => {
-  return `px-4 py-2 rounded-xl focus:outline-none focus:ring-0 border-2 border-transparent focus:border-black transition-colors duration-300 shadow-lg ${variantClass[props.variant] ?? ''} ${fullWidthClass.value}`
+  return `focus:outline-none focus:ring-0 border-2 border-transparent focus:border-black transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-50 ${pillClass.value} ${variantClass[props.variant] ?? ''} ${fullWidthClass.value}`
 })
 
 const emit = defineEmits(['click'])
 </script>
 
 <template>
-  <button :type="type" :disabled="disabled" :class="buttonClass" @click="$emit('click', $event)">
+  <button :type="type" :disabled="isDisabled" :class="buttonClass" @click="$emit('click', $event)">
     <slot />
   </button>
 </template>

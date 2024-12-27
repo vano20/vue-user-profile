@@ -1,5 +1,5 @@
-import AuthRepository from './AuthRepository';
-import UserRepository from './UserRepository';
+import AuthRepository from './AuthRepository'
+import UserRepository from './UserRepository'
 
 const repositories = {
   'auth': AuthRepository,
@@ -8,4 +8,4 @@ const repositories = {
 
 export default {
     get: name => repositories[name]
-};
+}
