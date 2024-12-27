@@ -80,11 +80,13 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading.value = true
     const [token, id] = Cookie.get('authToken')?.split?.('-') ?? []
 
-    if (token) {
+    if (token && id) {
       await getUsers()
       getUserData(id)
     } else {
+      logout()
       isLoading.value = false
+      router.push('/login')
     }
   }
 

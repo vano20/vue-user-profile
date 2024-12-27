@@ -35,12 +35,12 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const authStore = useAuthStore()
+  const { isLoggedIn, checkAuthStatus } = useAuthStore()
 
-  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
-    await authStore.checkAuthStatus()
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    await checkAuthStatus()
 
-    if (!authStore.isLoggedIn) {
+    if (!isLoggedIn) {
       next({ name: 'login' })
     } else {
       next()
@@ -49,7 +49,7 @@ router.beforeEach(async (to, from, next) => {
     return
   }
 
-  if (to.meta.guestOnly && authStore.isLoggedIn) {
+  if (to.meta.guestOnly && isLoggedIn) {
     next({ name: 'home' })
   
     return
