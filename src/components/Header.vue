@@ -12,9 +12,8 @@ const userMenus = [
   }
 ]
 
-const { user } = storeToRefs(useAuthStore())
+const { user, userFullName: fullName } = storeToRefs(useAuthStore())
 
-const fullName = computed(() => `${user.value.first_name} ${user.value.last_name}`)
 const isLoggedIn = computed(() => !!user.value.id)
 </script>
 

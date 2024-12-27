@@ -21,6 +21,9 @@ export const useAuthStore = defineStore('auth', () => {
       return acc
     }, {})
   })
+  const userFullName = computed(() => {
+    return `${user.value.first_name} ${user.value.last_name}`
+  })
 
   function setUser(userData, token) {
     user.value = userData
@@ -88,6 +91,7 @@ export const useAuthStore = defineStore('auth', () => {
     user,
     users,
     usersIdMap,
+    userFullName,
     isLoggedIn,
     isLoading,
     login,

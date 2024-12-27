@@ -4,9 +4,8 @@ import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore()
-const { user } = storeToRefs(authStore)
+const { user, userFullName: fullName‘ } = storeToRefs(authStore)
 
-const fullName = computed(() => `${user.value.first_name} ${user.value.last_name}`)
 </script>
 
 <template>
