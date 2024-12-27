@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, nextTick } from 'vue'
+import { onMounted, ref } from 'vue'
 import { RouterView } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
