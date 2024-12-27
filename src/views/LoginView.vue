@@ -8,6 +8,17 @@ import Button from '@/components/Base/Button.vue'
 const router = useRouter()
 const authStore = useAuthStore()
 
+const errors = ref('')
+const invalid = ref({
+  username: false,
+  email: false,
+  password: false
+})
+const required = ref({
+  username: true,
+  email: true,
+  password: true
+})
 const form = ref({
   username: 'george.bluth@reqres.in',
   email: 'george.bluth@reqres.in',
@@ -22,7 +33,7 @@ async function login() {
 
     await authStore.login(form.value)
   } catch (error) {
-    console.log('err', error)
+    errors.value = error.response.data?.error || 'Error on login user'
   } finally {
     isLoggingIn.value = false
 
@@ -39,7 +50,12 @@ async function login() {
         <img class="w-32 rounded-md" loading="lazy" src="../assets/logoipsum.svg" />
       </div>
 
-      <form>
+      <div v-if="errors"
+        class="text-center mb-6 p-4 border-2 rounded-lg bg-red-50 border-red-100 text-red-600 truncate overflow-hidden text-ellipsis">
+        {{ errors }}
+      </div>
+
+      <form @submit.prevent="login">
         <div class="flex flex-col gap-1.5 mb-6">
           <label for="username" class="font-semibold">Username</label>
           <Input id="username" v-model="form.username" type="text" placeholder="Username" :is-disabled="isLoggingIn" />
@@ -57,7 +73,7 @@ async function login() {
         </div>
 
         <div class="block w-full mt-12">
-          <Button full-width :is-disabled="isLoggingIn" @click="login">Login</button>
+          <Button type="submit" full-width :is-disabled="isLoggingIn">Login</button>
         </div>
       </form>
 

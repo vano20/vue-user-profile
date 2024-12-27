@@ -65,6 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
       setUser(user?.data?.data ?? {}, response?.data?.token ?? '')
     } catch (error) {
       console.log('err', error)
+      return Promise.reject(error)
     }
   }
 

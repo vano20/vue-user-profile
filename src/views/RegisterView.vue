@@ -9,6 +9,7 @@ import RepositoryFactory from '@/repository/RepositoryFactory'
 const AuthRepository = RepositoryFactory.get('auth')
 
 const router = useRouter()
+const errors = ref('')
 const form = ref({
   username: 'george.bluth@reqres.in',
   email: 'george.bluth@reqres.in',
@@ -33,7 +34,7 @@ async function registerUser() {
     await AuthRepository.register({ username: form.value.username, email: form.value.email, password: form.value.password })
     router.push({ name: 'login' })
   } catch (error) {
-    console.log('err', error)
+    errors.value = error.response.data?.error || 'Something went wrong'
   } finally {
     isRegistering.value = false
   }
@@ -53,6 +54,11 @@ function createAccount() {
   <main class="w-full h-screen flex justify-center items-center">
     <div class="w-full h-full md:w-96 md:h-auto md:rounded-2xl md:shadow-lg py-4 px-6 flex flex-col">
       <h1 class="text-4xl font-semibold mb-12 text-center">Register</h1>
+
+      <div v-if="errors"
+        class="text-center mb-6 p-4 border-2 rounded-lg bg-red-50 border-red-100 text-red-600 truncate overflow-hidden text-ellipsis">
+        {{ errors }}
+      </div>
 
       <form @submit.prevent="createAccount">
         <div class="flex flex-col gap-1.5 mb-6">
